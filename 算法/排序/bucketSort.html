@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .end{
+        color: blue
+    }
+    .init{
+        color: red;
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="bucketSort(arr)">桶排序</button>
+        <ul>
+            <li class="init">排序前：6,2,3,5,9,4,7,1,8</li>
+            <li class="end">排序后：{{arr.join(",")}}</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    //计数排序的升级版，将数字放在不同的连续区间内，在区间内进行排序
+    var initArr = '6,2,3,5,9,4,7,1,8';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+            arr: [6,2,3,5,9,4,7,1,8]
+        },
+        methods: {
+            bucketSort: function(arr){
+                if(arr==initArr.split(','))
+                    this.items = [];
+                if (arr == null || arr.length < 2) {
+                    this.items.push(arr.join(','))
+                };
+                
+            },
+        }
+    })
+</script>
+</html>

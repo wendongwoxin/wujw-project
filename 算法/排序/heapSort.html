@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .end{
+        color: blue
+    }
+    .init{
+        color: red;
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="heapSort(arr)">堆排序</button>
+        <!-- <div>首先建立一个大顶堆(小顶堆)，然后将堆首与堆尾互换，缩小堆尺寸，重复操作</div> -->
+        <ul>
+            <li class="init">排序前：6,2,3,5,9,4,7,1,8</li>
+            <li class="end">排序后：{{arr.join(",")}}</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var initArr = '6,2,3,5,9,4,7,1,8';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+            len:'',
+            arr: [6,2,3,5,9,4,7,1,8]
+        },
+        methods: {
+            heapSort: function(arr){
+                if(arr==initArr.split(','))
+                    this.items = [];
+                if (arr == null || arr.length < 2) {
+                    this.items.push(arr.join(','))
+                };
+                this.buildMaxHeap(arr);
+                for(var i =arr.length-1;i>0;i--){
+                    this.swap(arr,0,i);
+                    this.len--;
+                    this.heapify(arr,0);
+                }
+                return arr;
+            },
+            buildMaxHeap: function(arr){           //构造大顶堆
+                this.len = arr.length;
+                for(var i= Math.floor(this.len/2);i>=0;i--){
+                    this.heapify(arr,i);
+                }
+            },
+            heapify: function(arr,i){              //堆调整
+                var left = 2 * i + 1,
+                    right = 2 * i + 2,
+                    largest = i;
+                if(left<this.len&&arr[left]>arr[largest]){
+                    largest = left;
+                }
+                if(right<this.len&&arr[right]>arr[largest]){
+                    largest = right;
+                }
+                if(largest!=i){
+                    this.swap(arr,i,largest);
+                    this.heapify(arr,largest)
+                }
+            },
+            swap: function(arr,i,j){
+                var temp = arr[j];
+                arr[j] = arr[i];
+                arr[i] = temp;
+                this.items.push(arr.join(','))
+            }
+        }
+    })
+</script>
+</html>

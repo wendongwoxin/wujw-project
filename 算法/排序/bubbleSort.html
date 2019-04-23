@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .init{
+        color: blue
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="bubbleSort">冒泡排序</button>
+        <div>
+            不断对比相邻元素，逆序时换位，直至最后一个
+        </div>
+        <ul>
+            <li class="init">6,2,3,5,9,4,7,1,8</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var initArr = '6,2,3,5,9,4,7,1,8';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+        },
+        methods: {
+            bubbleSort: function(){
+                this.items = [];
+                var array = initArr.split(',');
+                for(var i = 0;i<array.length;i++){
+                    for(var j = 0;j<array.length-i-1;j++){
+                        if(array[j+1]<array[j]){
+                            var temp = array[j];
+                            array[j] = array[j+1];
+                            array[j+1] = temp;
+                            this.items.push(array.join(","))
+                        }
+                    }
+                }
+            }
+        }
+    })
+</script>
+</html>

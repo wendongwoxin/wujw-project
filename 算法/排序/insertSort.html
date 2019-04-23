@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .init{
+        color: blue
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="insertSort">插入排序</button>
+        <div>
+            从第一个元素开始，作为有序数组，后面作为无序数组，依次扫描未排序的数组，
+            如 3,4,2,1,5这个数组，
+            以3为一个有序数组，扫描后面第一个4，然后3,4,成有序数组，
+            再扫描2,此时2,3,4为有序数组，
+            继续扫描，将无序数组的元素插入有序数组中，直至无序数组扫描结束
+        </div>
+        <ul>
+            <li class="init">6,2,3,5,9,4,7,1,8</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var initArr = '6,2,3,5,9,4,7,1,8';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+        },
+        methods: {
+            insertSort: function(){
+                this.items = [];
+                var array = initArr.split(',');
+                if (array == null || array.length < 2) {
+                    this.items.push(array.join(','))
+                }
+                for (let i = 1; i < array.length; i++) {
+                    for (let j = i - 1; j >= 0 && array[j] > array[j + 1]; j--) {
+                        let temp = array[j];
+                        array[j] = array[j + 1];
+                        array[j + 1] = temp;
+                        // this.items.push(array.join(','))
+                    }
+                    this.items.push(array.join(','))
+                }
+            }
+        }
+    })
+</script>
+</html>

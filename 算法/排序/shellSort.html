@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .init{
+        color: blue
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="shellSort">希尔排序</button>
+        <div>
+            <!-- 希尔排序也是一种插入排序，简单插入排序中更高效的版本；
+            以本示例举例 
+            6 2 3 5 9 4 7 1 8 
+            可以给他设置一个初始增量    len/2  
+            我们就可以这么比较 
+            6  9  8；2  4；3  7；5   1
+            这样进行排序
+            6 8 9 ； 2 4 ； 3 7； 1 5；
+            第一次排序结果就为
+            6 2 3 1 8 4 7 5 9
+            我们再次将初始增量缩小    len/2/2  
+            6 3 8 7 9 ； 2 1 4 5；
+            第二轮排序结果
+            3 1 6 2 7 4 8 5 9
+            依次类推至增量为一时进行排序
+            最后得到1 2 3 4 5 6 7 8 9 -->
+        </div>
+        <ul>
+            <li class="init">6,2,3,5,9,4,7,1,8</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var initArr = '6,2,3,5,9,4,7,1,8';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+        },
+        methods: {
+            shellSort: function(){
+                this.items = [];
+                var arr = initArr.split(',');
+                var len = arr.length;
+                for (var fraction = Math.floor(len / 2); fraction > 0; fraction = Math.floor(fraction / 2)) {
+                    for (var i = fraction; i < len; i++) {
+                        for (var j = i - fraction; j >= 0 && arr[j] > arr[fraction + j]; j -= fraction) {
+                            var temp = arr[j];
+                            arr[j] = arr[fraction + j];
+                            arr[fraction + j] = temp;
+                        }
+                    }
+                    this.items.push(arr.join(','))
+                }
+            }
+        }
+    })
+</script>
+</html>

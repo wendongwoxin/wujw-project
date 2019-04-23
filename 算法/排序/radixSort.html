@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .end{
+        color: blue
+    }
+    .init{
+        color: red;
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="radixSort(arr)">基数排序</button>
+        <ul>
+            <li class="init">排序前：9,21,34,456,196,43,377,13,182</li>
+            <li class="end">排序后：{{end}}</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var initArr = '9,21,34,456,196,43,377,13,182';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+            arr: [9,21,34,456,196,43,377,13,182],
+            end: '9,21,34,456,196,43,377,13,182'
+        },
+        methods: {
+            radixSort: function(arr){
+                var counter = [];
+                if(arr==initArr.split(','))
+                    this.items = [];
+                if (arr == null || arr.length < 2) {
+                    this.items.push(arr.join(','))
+                };
+                var max = Math.max.apply(null,arr);
+                var digit = max.toString().length;
+                
+                for(var i=1;i<=digit;i++){
+                    var newArr = [[],[],[],[],[],[],[],[],[],[]];
+                    for(var j =0;j<arr.length;j++){
+                        var str = arr[j].toString();
+                        var index;
+                        if(str.length>=i)
+                            index = parseInt(str.charAt(str.length-i,1));
+                        else{
+                            index = 0;
+                        }
+                        
+                        newArr[index].push(arr[j]);
+                    }
+                    //将数组排序
+                    this.sort(arr,newArr);
+                }
+                this.end = arr.join(',');
+            },
+            sort: function(arr,newArr){
+                var index = 0;
+                for(var i=0;i<10;i++){
+                    for(var j =0;j<newArr[i].length;j++){
+                        arr[index] = newArr[i][j];
+                        index++;
+                    }
+                }
+            }
+            
+        }
+    })
+</script>
+</html>

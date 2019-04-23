@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .init{
+        color: blue
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="mergeSort(arr)">归并排序</button>
+        <ul>
+            <li class="init">6,2,3,5,9,4,7,1,8</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    /**
+     * 尽量别用归并，js编译器内存太小，递归太深容易造成内存溢出
+     **/
+    var initArr = '6,2,3,5,9,4,7,1,8';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+            arr: [6,2,3,5,9,4,7,1,8]
+        },
+        methods: {
+            mergeSort: function(array){
+                if(array == this.arr)
+                    this.items = [];
+                // var array = initArr.split(',');
+                var len = array.length;
+                if(len < 2) {
+                    return array;
+                }
+                var middle = Math.floor(len / 2),
+                    left = array.slice(0, middle),
+                    right = array.slice(middle);
+                return this.merge(this.mergeSort(left), this.mergeSort(right));
+            },
+            merge: function(left,right){
+                var result = [];
+                while (left.length && right.length) {
+                    if (left[0] <= right[0]) {
+                        result.push(left.shift());
+                    } else {
+                        result.push(right.shift());
+                    }
+                }
+                while (left.length)
+                    result.push(left.shift());
+                while (right.length)
+                    result.push(right.shift());
+                this.items.push(result.join(','))
+                return result;
+            }
+        }
+    })
+</script>
+</html>

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .end{
+        color: blue
+    }
+    .init{
+        color: red;
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="countingSort(arr)">堆排序</button>
+        <div>整数排序、低的整数排序</div>
+        <ul>
+            <li class="init">排序前：6,2,3,5,9,4,7,1,8,2</li>
+            <li class="end">排序后：{{arr.join(",")}}</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var initArr = '6,2,3,5,9,4,7,1,8,2';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+            arr: [6,2,3,5,9,4,7,1,8,2]
+        },
+        methods: {
+            countingSort: function(arr){
+                if(arr==initArr.split(','))
+                    this.items = [];
+                if (arr == null || arr.length < 2) {
+                    this.items.push(arr.join(','))
+                };
+                var max = Math.max.apply(null,arr);
+                var min = Math.min.apply(null,arr);
+                var newArr = [];
+                for(var i = min;i<=max;i++){
+                    newArr[i] = 0;
+                }
+                for(var i = 0;i<arr.length;i++){
+                    newArr[arr[i]]++;
+                }
+                this.arr =[];
+                for(var i = 0;i<newArr.length;i++){
+                    if(newArr[i]>0){
+                        for(var j =0 ;j<newArr[i];j++){
+                            this.arr.push(i);
+                        }
+                    }
+                }
+            },
+        }
+    })
+</script>
+</html>

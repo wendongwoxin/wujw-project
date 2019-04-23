@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<script type="text/javascript" src="../lib/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="../lib/vue.min.js"></script>
+<style>
+    .end{
+        color: blue
+    }
+    .init{
+        color: red;
+    }
+</style>
+<body>
+    <div id="app">
+        <button @click="quickSort(arr,0,arr.length-1)">快速排序</button>
+        <!-- 依旧以此例子为例
+        我们设个基准数6 
+        6 2 3 5 9 4 7 1 8
+        有个left和right指针  这里我们开始时分别指向2 8 
+        然后我们从right开始向左找比基准小的元素  1 right指针指向1
+        然后我们从left开始向右找比基准大的元素  9  left指针指向9
+        然后1 9 调换
+        然后继续right向左找，依次找到left和right重合将重合的指针位置和基准对换，
+        然后将基准左边和右边的继续以上方法操作，直至左边右边只有一个元素时数组就正序了 -->
+
+        <ul>
+            <li class="init">排序前：6,2,3,5,9,4,7,1,8</li>
+            <li class="end">排序后：{{arr.join(",")}}</li>
+            <li v-for="(item,index) in items">{{item}}</li>
+        </ul>
+    </div>
+</body>
+<script>
+    var initArr = '6,2,3,5,9,4,7,1,8';
+    var app = new Vue({
+        el: '#app',
+        data: {
+            items: [],
+            arr: [6,2,3,5,9,4,7,1,8]
+        },
+        methods: {
+            quickSort: function(arr,left,right){
+                if(arr.join(',')==initArr)
+                    this.items = [];
+                if(left<right){
+                    var anchor = this.partation(arr,left,right);
+                    this.quickSort(arr,left,anchor-1);
+                    this.quickSort(arr,anchor+1,right)
+                }
+                return arr;
+            }, 
+            partation: function(arr,left,right){
+               var pivot = left;
+               var index = pivot + 1;
+               for(var i = index;i<=right;i++){
+                   if(arr[i]<arr[pivot]){
+                       
+                       if(index!=i){
+                            var temp = arr[index];
+                            arr[index] = arr[i];
+                            arr[i] = temp;
+                            this.items.push(arr.join(','))
+                       }
+                       index++;
+                   }
+               }
+               if(index-1!=pivot){
+                    var temp = arr[index-1];
+                    arr[index-1] = arr[pivot];
+                    arr[pivot] = temp;
+                    this.items.push(arr.join(','))
+               }
+               return index-1;
+            }
+            
+        }
+    })
+</script>
+</html>
